@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3 uid="uid://xyf23418cq8n"]
+
+[ext_resource type="Script" uid="uid://cqf2f6kiau2y8" path="res://character.gd" id="1_uhqqe"]
+[ext_resource type="Script" uid="uid://upwpgulstt3m" path="res://camera_rig.gd" id="2_ia1lp"]
+[ext_resource type="Texture2D" uid="uid://b88g2a4ne53gg" path="res://icon.svg" id="3_sasra"]
+[ext_resource type="PackedScene" uid="uid://da07w04bnwf3g" path="res://assets/test_art/3D_background_test.blend" id="4_coq8p"]
+
+[sub_resource type="Environment" id="Environment_ia1lp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6adnx"]
+size = Vector3(30, 2, 30)
+
+[sub_resource type="BoxMesh" id="BoxMesh_uhqqe"]
+size = Vector3(30, 2, 30)
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ia1lp"]
+
+[node name="TestScene" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ia1lp")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="WorldEnvironment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_6adnx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("BoxMesh_uhqqe")
+
+[node name="3D_background_test" parent="." instance=ExtResource("4_coq8p")]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.938306, 0.345806, 0, -0.345806, 0.938306, 0, 3.47191, 9.03431)
+fov = 30.0
+
+[node name="Character" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera")]
+collision_layer = 2
+script = ExtResource("1_uhqqe")
+camera = NodePath("../Camera3D")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Character"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_ia1lp")
+
+[node name="CameraRig" type="Node3D" parent="Character"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.49245, 0)
+script = ExtResource("2_ia1lp")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Character/CameraRig"]
+
+[node name="Camera3D" type="Camera3D" parent="Character/CameraRig/SpringArm3D"]
+fov = 80.0
+
+[node name="Sprite3D" type="Sprite3D" parent="Character"]
+transform = Transform3D(0.689225, 0, 0, 0, 1.39634, 0, 0, 0, 1, 0, 0.97919, 0)
+texture = ExtResource("3_sasra")

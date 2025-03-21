@@ -1,6 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://xyf23418cq8n"]
+[gd_scene load_steps=12 format=3 uid="uid://xyf23418cq8n"]
 
+[ext_resource type="Script" uid="uid://xhgoc2dcvplg" path="res://game.gd" id="1_7cbxl"]
 [ext_resource type="Script" uid="uid://cqf2f6kiau2y8" path="res://character.gd" id="1_uhqqe"]
+[ext_resource type="Script" uid="uid://o3n42bjfta5b" path="res://camera_left_right.gd" id="2_2nij2"]
 [ext_resource type="Script" uid="uid://upwpgulstt3m" path="res://camera_rig.gd" id="2_ia1lp"]
 [ext_resource type="Texture2D" uid="uid://b88g2a4ne53gg" path="res://icon.svg" id="3_sasra"]
 [ext_resource type="PackedScene" uid="uid://da07w04bnwf3g" path="res://assets/test_art/3D_background_test.blend" id="4_coq8p"]
@@ -13,9 +15,13 @@ size = Vector3(30, 2, 30)
 [sub_resource type="BoxMesh" id="BoxMesh_uhqqe"]
 size = Vector3(30, 2, 30)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_2nij2"]
+size = Vector3(21.022, 3.21478, 1)
+
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ia1lp"]
 
 [node name="TestScene" type="Node3D"]
+script = ExtResource("1_7cbxl")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_ia1lp")
@@ -34,16 +40,50 @@ shape = SubResource("BoxShape3D_6adnx")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D"]
 mesh = SubResource("BoxMesh_uhqqe")
 
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.29565, 2.17374, 5)
+shape = SubResource("BoxShape3D_2nij2")
+
+[node name="CollisionShape3D8" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.637, 2.17374, 10.6512)
+shape = SubResource("BoxShape3D_2nij2")
+
+[node name="CollisionShape3D9" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12.3312, 2.17374, -6.87921)
+shape = SubResource("BoxShape3D_2nij2")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.29565, 2.17374, -1.90027)
+shape = SubResource("BoxShape3D_2nij2")
+
+[node name="CollisionShape3D4" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 10.7126, 2.17374, 0.334054)
+shape = SubResource("BoxShape3D_2nij2")
+
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -10.9806, 2.17374, 0.334054)
+shape = SubResource("BoxShape3D_2nij2")
+
+[node name="CollisionShape3D6" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.68954, 2.17374, -12.8064)
+shape = SubResource("BoxShape3D_2nij2")
+
+[node name="CollisionShape3D7" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 5.68954, 2.17374, 15.3116)
+shape = SubResource("BoxShape3D_2nij2")
+
 [node name="3D_background_test" parent="." instance=ExtResource("4_coq8p")]
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="CameraLeftRight" type="Camera3D" parent="." node_paths=PackedStringArray("node_to_track")]
 transform = Transform3D(1, 0, 0, 0, 0.938306, 0.345806, 0, -0.345806, 0.938306, 0, 3.47191, 9.03431)
 fov = 30.0
+script = ExtResource("2_2nij2")
+node_to_track = NodePath("../Character")
 
 [node name="Character" type="CharacterBody3D" parent="." node_paths=PackedStringArray("camera")]
 collision_layer = 2
 script = ExtResource("1_uhqqe")
-camera = NodePath("../Camera3D")
+camera = NodePath("../CameraLeftRight")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Character"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
